@@ -1,0 +1,46 @@
+package dev.coffeezombie.wasp.controller;
+
+import dev.coffeezombie.wasp.dto.PersonDto;
+import dev.coffeezombie.wasp.service.PersonService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+import static org.springframework.http.ResponseEntity.ok;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("person")
+public class PersonController {
+
+    private final PersonService personService;
+
+    @GetMapping("")
+    public ResponseEntity<List<PersonDto>> findAll(){
+        return ok(personService.findAll());
+    }
+
+    @PostMapping("")
+    public ResponseEntity<PersonDto> createOrUpdate(@RequestBody PersonDto dto){
+        return ok(personService.createOrUpdate(dto));
+    }
+
+    @PutMapping("")
+    public ResponseEntity<PersonDto> update(@RequestBody PersonDto dto){
+        return ok(personService.update(dto));
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<PersonDto> findById(@PathVariable Long id){
+        return ok(personService.findById(id));
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteById(@PathVariable Long id){
+        personService.deleteById(id);
+        return ok("Deleted.");
+    }
+
+}

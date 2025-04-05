@@ -1,0 +1,39 @@
+{
+  "projectLocation": "/home/bla/bla",
+  "packageName": "dev.coffeezombie.wasp",
+  "classes": {
+    "entity": true,
+    "dto": true,
+    "repository": true,
+    "service": true,
+    "controller": true,
+    "tests": true
+  },
+  "defaultPreferences": {
+    "jsonIgnoreUnknown": true,
+    "modelMapper": true
+  },
+  "entities": [
+    {
+      "name": "Person",
+      "idName": "id",
+      "properties": [
+        { "name": "id", "type": "Long" },
+        { "name": "myLong", "type": "Long" },
+        { "name": "myBd", "type": "BigDecimal" },
+        { "name": "myBi", "type": "BigInteger" },
+        { "name": "myBool", "type": "boolean" },
+        { "name": "myPBool", "type": "Boolean" },
+        { "name": "myPDouble", "type": "Double" },
+        { "name": "myDouble", "type": "double" },
+        { "name": "myFloat", "type": "float" },
+        { "name": "myInt", "type": "int" },
+        { "name": "myInteger", "type": "Integer" },
+        { "name": "myPLong", "type": "long" },
+        { "name": "myString", "type": "String" },
+        { "name": "myDate", "type": "Date" },
+        { "name": "myJson", "type": "JsonBinaryType" }
+      ]
+    }
+  ]
+}

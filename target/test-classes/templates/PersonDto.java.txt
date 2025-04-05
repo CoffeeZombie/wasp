@@ -1,0 +1,39 @@
+package dev.coffeezombie.wasp.dto;
+
+import dev.coffeezombie.wasp.entity.Person;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.modelmapper.ModelMapper;
+
+import java.Math.BigDecimal;
+import java.Math.BigInteger;
+import java.util.Date;
+
+@Data
+@NoArgsConstructor
+@JsonIgnoreProperties(unknownProperties = true)
+public class PersonDto {
+
+    private Long id;
+    private Long myLong;
+    private BigDecimal myBd;
+    private BigInteger myBi;
+    private boolean myBool;
+    private Boolean myPBool;
+    private Double myPDouble;
+    private double myDouble;
+    private float myFloat;
+    private int myInt;
+    private Integer myInteger;
+    private long myPLong;
+    private String myString;
+    private Date myDate;
+    private JsonBinaryType myJson;
+
+    public PersonDto(Person entity) {
+        var mapper = new ModelMapper();
+        return mapper.map(entity, PersonDto.class)
+    }
+
+}
