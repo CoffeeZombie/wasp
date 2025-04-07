@@ -1,0 +1,48 @@
+package dev.coffeezombie.wasp.service;
+
+import dev.coffeezombie.wasp.dto.PersonThingDto;
+import dev.coffeezombie.wasp.entity.PersonThing;
+import dev.coffeezombie.wasp.repository.PersonThingRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class PersonThingService {
+
+    private final PersonThingRepository personThingRepository;
+
+    public List<PersonThingDto> findAll() {
+        return personThingRepository.findAll()
+                .stream()
+                .map(PersonThingDto::new)
+                .collect(Collectors.toList());
+    }
+
+    public PersonThingDto findById(Long id) {
+        var personThing = personThingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Unable to find personThing by id " + id));
+
+        return new PersonThingDto(personThing);
+    }
+
+    public void deleteById(Long id) {
+        personThingRepository.deleteById(id);
+    }
+
+    public PersonThingDto createOrUpdate(PersonThingDto dto) {
+        var entity = personThingRepository.save(new PersonThing(dto));
+        return new PersonThingDto(entity);
+    }
+
+    public PersonThingDto update(PersonThingDto dto) {
+        var entity = findById(dto.getId()); // Throws exception if not found - this is used as a check only
+        var updated = personThingRepository.save(new PersonThing(dto));
+        return new PersonThingDto(updated);
+    }
+}

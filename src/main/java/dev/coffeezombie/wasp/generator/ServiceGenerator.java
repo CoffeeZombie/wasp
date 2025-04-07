@@ -1,11 +1,13 @@
 package dev.coffeezombie.wasp.generator;
 
-import dev.coffeezombie.wasp.util.StringUtil;
+import dev.coffeezombie.wasp.util.GeneratorStringUtil;
 import dev.coffeezombie.wasp.util.model.GeneratorConfig;
 import dev.coffeezombie.wasp.util.model.GeneratorEntity;
 
 import java.util.ArrayList;
 import java.util.StringJoiner;
+
+import static dev.coffeezombie.wasp.util.GeneratorStringUtil.getCamelCaseEntityName;
 
 public class ServiceGenerator {
 
@@ -15,6 +17,10 @@ public class ServiceGenerator {
 
     public static String generateService(GeneratorConfig config, GeneratorEntity entity){
         var serviceBuilder = new StringJoiner("\n");
+
+        String repoName = getCamelCaseEntityName(entity.getName()) + "Repository";
+        String dtoName = entity.getName() + "Dto";
+        String ccEntityName = getCamelCaseEntityName(entity.getName());
 
         // Package Name
         serviceBuilder.add("package " + config.getPackageName() + ".service;\n");
@@ -28,50 +34,50 @@ public class ServiceGenerator {
         serviceBuilder.add("@RequiredArgsConstructor");
 
         // Class
-        serviceBuilder.add("public class PersonService {");
+        serviceBuilder.add("public class " + entity.getName() + "Service {");
 
         // Repo Import
         serviceBuilder.add("");
-        serviceBuilder.add("\tprivate final " + entity.getName() + "Repository " + entity.getName().toLowerCase() + "Repository;");
+        serviceBuilder.add("\tprivate final " + entity.getName() + "Repository " + ccEntityName + "Repository;");
 
         // Methods
         var methods = new StringJoiner("\n\t");
         methods.add("");
 
-        methods.add("public List<PersonDto> findAll() {");
-        methods.add(INDENT_ONE + "return personRepository.findAll()");
+        methods.add("public List<" + dtoName + "> findAll() {");
+        methods.add(INDENT_ONE + "return " + repoName + ".findAll()");
         methods.add(INDENT_THREE + ".stream()");
-        methods.add(INDENT_THREE + ".map(PersonDto::new)");
+        methods.add(INDENT_THREE + ".map(" + dtoName + "::new)");
         methods.add(INDENT_THREE + ".collect(Collectors.toList());");
         methods.add("}");
         methods.add("");
-        methods.add("public PersonDto findById(Long id) {");
-        methods.add(INDENT_ONE + "var person = personRepository.findById(id)");
-        methods.add(INDENT_THREE + ".orElseThrow(() -> new RuntimeException(\"Unable to find person by id \" + id));");
+        methods.add("public " + dtoName + " findById(Long id) {");
+        methods.add(INDENT_ONE + "var " + ccEntityName + " = " + repoName + ".findById(id)");
+        methods.add(INDENT_THREE + ".orElseThrow(() -> new RuntimeException(\"Unable to find " + ccEntityName + " by id \" + id));");
         methods.add("");
-        methods.add(INDENT_ONE + "return new PersonDto(person);");
+        methods.add(INDENT_ONE + "return new " + dtoName + "(" + ccEntityName + ");");
         methods.add("}");
         methods.add("");
         methods.add("public void deleteById(Long id) {");
-        methods.add(INDENT_ONE + "personRepository.deleteById(id);");
+        methods.add(INDENT_ONE + repoName + ".deleteById(id);");
         methods.add("}");
         methods.add("");
-        methods.add("public PersonDto createOrUpdate(PersonDto dto) {");
-        methods.add(INDENT_ONE + "var entity = personRepository.save(new Person(dto));");
-        methods.add(INDENT_ONE + "return new PersonDto(entity);");
+        methods.add("public " + dtoName + " createOrUpdate(" + dtoName + " dto) {");
+        methods.add(INDENT_ONE + "var entity = " + repoName + ".save(new " + entity.getName() + "(dto));");
+        methods.add(INDENT_ONE + "return new " + dtoName + "(entity);");
         methods.add("}");
         methods.add("");
-        methods.add("public PersonDto update(PersonDto dto) {");
+        methods.add("public " + dtoName + " update(" + dtoName + " dto) {");
         methods.add(INDENT_ONE + "var entity = findById(dto.getId()); // Throws exception if not found - this is used as a check only");
-        methods.add(INDENT_ONE + "var updated = personRepository.save(new Person(dto));");
-        methods.add(INDENT_ONE + "return new PersonDto(updated);");
+        methods.add(INDENT_ONE + "var updated = " + repoName + ".save(new " + entity.getName() + "(dto));");
+        methods.add(INDENT_ONE + "return new " + dtoName + "(updated);");
         methods.add("}");
 
         serviceBuilder.add(methods.toString());
 
         serviceBuilder.add("}");
 
-        return StringUtil.cleanOutput(serviceBuilder.toString());
+        return GeneratorStringUtil.cleanOutput(serviceBuilder.toString());
     }
 
     public static String generateAllImports(GeneratorConfig config, GeneratorEntity entity){
@@ -103,7 +109,7 @@ public class ServiceGenerator {
         packages.add("lombok.extern.slf4j.Slf4j");
         packages.add("org.springframework.stereotype.Service");
 
-        return StringUtil.generateImports(packages);
+        return GeneratorStringUtil.generateImports(packages);
     }
 
 }

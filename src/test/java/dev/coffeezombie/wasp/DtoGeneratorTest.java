@@ -31,4 +31,21 @@ public class DtoGeneratorTest {
         assertEquals(expectedOutput, result);
     }
 
+    @Test
+    public void test_generateDtoWithDoubleBarrelName() throws IOException {
+
+        Path resourcePath = Paths.get("src", "test", "resources", "templates", "PersonThingDto.java.txt");
+        String expectedOutput = Files.readString(resourcePath);
+
+        Path jsonPath = Paths.get("src", "test", "resources", "templates", "full-config.json");
+        String json = Files.readString(jsonPath);
+
+        var obj = new ObjectMapper();
+        GeneratorConfig config = obj.readValue(json, GeneratorConfig.class);
+
+        String result = DtoGenerator.generateDto(config.getDefaultPreferences(), config.getEntities().get(1), "dev.coffeezombie.wasp");
+
+        assertEquals(expectedOutput, result);
+    }
+
 }

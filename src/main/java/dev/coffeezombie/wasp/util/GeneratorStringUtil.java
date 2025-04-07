@@ -1,18 +1,21 @@
 package dev.coffeezombie.wasp.util;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class StringUtil {
+public class GeneratorStringUtil {
 
-    public static String getLowerCaseEntityName(String name){
-        // TODO: handle multiple words e.g. UserPreference to user-preference
-        return name.toLowerCase();
+    public static String getLowerCaseEntityName(String name) {
+        // Insert hyphen between words by identifying transitions between lowercase and uppercase
+        String result = name.replaceAll("([a-z])([A-Z])", "$1-$2").toLowerCase();
+        return result;
     }
 
-    public static String getCamelCaseEntityName(String name){
-        // TODO: handle multiple words e.g. UserPreference to userPreference
-        return name.toLowerCase();
+    public static String getCamelCaseEntityName(String name) {
+        String[] array = name.split("");
+        array[0] = array[0].toLowerCase();
+        return String.join("", array);
     }
 
     public static String cleanOutput(String input){

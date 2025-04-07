@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class RepositoryGeneratorTest {
 
     @Test
-    public void test_generateDto() throws IOException {
+    public void test_generateRepository() throws IOException {
 
         Path resourcePath = Paths.get("src", "test", "resources", "templates", "PersonRepository.java.txt");
         String expectedOutput = Files.readString(resourcePath);
@@ -27,6 +27,23 @@ public class RepositoryGeneratorTest {
         GeneratorConfig config = obj.readValue(json, GeneratorConfig.class);
 
         String result = RepositoryGenerator.generateRepository("dev.coffeezombie.wasp", config.getEntities().get(0));
+
+        assertEquals(expectedOutput, result);
+    }
+
+    @Test
+    public void test_generateRepositoryWithDoubleBarrelName() throws IOException {
+
+        Path resourcePath = Paths.get("src", "test", "resources", "templates", "PersonThingRepository.java.txt");
+        String expectedOutput = Files.readString(resourcePath);
+
+        Path jsonPath = Paths.get("src", "test", "resources", "templates", "full-config.json");
+        String json = Files.readString(jsonPath);
+
+        var obj = new ObjectMapper();
+        GeneratorConfig config = obj.readValue(json, GeneratorConfig.class);
+
+        String result = RepositoryGenerator.generateRepository("dev.coffeezombie.wasp", config.getEntities().get(1));
 
         assertEquals(expectedOutput, result);
     }

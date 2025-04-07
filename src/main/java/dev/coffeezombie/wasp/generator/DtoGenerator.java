@@ -1,6 +1,6 @@
 package dev.coffeezombie.wasp.generator;
 
-import dev.coffeezombie.wasp.util.StringUtil;
+import dev.coffeezombie.wasp.util.GeneratorStringUtil;
 import dev.coffeezombie.wasp.util.model.GeneratorDefaultPreference;
 import dev.coffeezombie.wasp.util.model.GeneratorEntity;
 import dev.coffeezombie.wasp.util.model.GeneratorEntityField;
@@ -46,7 +46,7 @@ public class DtoGenerator {
         // Class close
         dtoBuilder.add("}");
 
-        return StringUtil.cleanOutput(dtoBuilder.toString());
+        return GeneratorStringUtil.cleanOutput(dtoBuilder.toString());
     }
 
     public static String getEntityConversion(GeneratorEntity entity, String dtoName){
@@ -77,7 +77,7 @@ public class DtoGenerator {
         if(preferences.getModelMapper())
             packages.add("org.modelmapper.ModelMapper");
 
-        return StringUtil.generateImports(packages);
+        return GeneratorStringUtil.generateImports(packages);
     }
 
     public static String generateAllImports(Set<String> types, GeneratorDefaultPreference preference){
@@ -98,7 +98,7 @@ public class DtoGenerator {
         if(types.contains("Date"))
             languageImports.add("java.util.Date");
 
-        joiner.add(StringUtil.generateImports(languageImports));
+        joiner.add(GeneratorStringUtil.generateImports(languageImports));
 
         if(!languageImports.isEmpty())
             joiner.add("");

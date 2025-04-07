@@ -1,6 +1,6 @@
 package dev.coffeezombie.wasp.generator;
 
-import dev.coffeezombie.wasp.util.StringUtil;
+import dev.coffeezombie.wasp.util.GeneratorStringUtil;
 import dev.coffeezombie.wasp.util.model.GeneratorConfig;
 import dev.coffeezombie.wasp.util.model.GeneratorDefaultPreference;
 import dev.coffeezombie.wasp.util.model.GeneratorEntity;
@@ -49,7 +49,7 @@ public class EntityGenerator {
 
         entityBuilder.add("\n}");
 
-        return StringUtil.cleanOutput(entityBuilder.toString());
+        return GeneratorStringUtil.cleanOutput(entityBuilder.toString());
     }
 
     private static String getDtoConversion(GeneratorEntity entity){
@@ -93,7 +93,7 @@ public class EntityGenerator {
         if(preferences.getModelMapper())
             packages.add("org.modelmapper.ModelMapper");
 
-        return StringUtil.generateImports(packages);
+        return GeneratorStringUtil.generateImports(packages);
     }
 
     public static String generatePostgresImports(){
@@ -101,7 +101,7 @@ public class EntityGenerator {
         packages.add("org.hibernate.annotations.JdbcTypeCode");
         packages.add("org.hibernate.annotations.Type");
         packages.add("org.hibernate.type.SqlTypes");
-        return StringUtil.generateImports(packages);
+        return GeneratorStringUtil.generateImports(packages);
     }
 
     public static String generateAllImports(Set<String> types, GeneratorDefaultPreference preference){
@@ -126,7 +126,7 @@ public class EntityGenerator {
         if(types.contains("Date"))
             languageImports.add("java.util.Date");
 
-        joiner.add(StringUtil.generateImports(languageImports));
+        joiner.add(GeneratorStringUtil.generateImports(languageImports));
 
         if(!languageImports.isEmpty())
             joiner.add("");

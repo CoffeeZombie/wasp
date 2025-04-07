@@ -1,9 +1,9 @@
 package dev.coffeezombie.wasp.repository;
 
-import dev.coffeezombie.wasp.entity.Person;
+import dev.coffeezombie.wasp.entity.PersonThing;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PersonRepository extends JpaRepository<Person, Long> {
+public interface PersonThingRepository extends JpaRepository<PersonThing, Long> {
 }

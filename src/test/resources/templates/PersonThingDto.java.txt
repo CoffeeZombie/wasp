@@ -1,0 +1,25 @@
+package dev.coffeezombie.wasp.dto;
+
+import dev.coffeezombie.wasp.entity.PersonThing;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.modelmapper.ModelMapper;
+
+import java.Math.BigDecimal;
+
+@Data
+@NoArgsConstructor
+@JsonIgnoreProperties(unknownProperties = true)
+public class PersonThingDto {
+
+    private Long id;
+    private Long myLong;
+    private BigDecimal myBd;
+
+    public PersonThingDto(PersonThing entity) {
+        var mapper = new ModelMapper();
+        return mapper.map(entity, PersonThingDto.class)
+    }
+
+}

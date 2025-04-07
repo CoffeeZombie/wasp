@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ControllerGeneratorTest {
 
     @Test
-    public void test_generateDto() throws IOException {
+    public void test_generateController() throws IOException {
 
         Path resourcePath = Paths.get("src", "test", "resources", "templates", "PersonController.java.txt");
         String expectedOutput = Files.readString(resourcePath);
@@ -27,6 +27,23 @@ public class ControllerGeneratorTest {
         GeneratorConfig config = obj.readValue(json, GeneratorConfig.class);
 
         String result = ControllerGenerator.generateController(config, config.getEntities().get(0));
+
+        assertEquals(expectedOutput, result);
+    }
+
+    @Test
+    public void test_generateControllerWithDoubleBarrelEntityName() throws IOException {
+
+        Path resourcePath = Paths.get("src", "test", "resources", "templates", "PersonThingController.java.txt");
+        String expectedOutput = Files.readString(resourcePath);
+
+        Path jsonPath = Paths.get("src", "test", "resources", "templates", "full-config.json");
+        String json = Files.readString(jsonPath);
+
+        var obj = new ObjectMapper();
+        GeneratorConfig config = obj.readValue(json, GeneratorConfig.class);
+
+        String result = ControllerGenerator.generateController(config, config.getEntities().get(1));
 
         assertEquals(expectedOutput, result);
     }

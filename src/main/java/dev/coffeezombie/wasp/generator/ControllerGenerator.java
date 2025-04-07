@@ -1,14 +1,14 @@
 package dev.coffeezombie.wasp.generator;
 
-import dev.coffeezombie.wasp.util.StringUtil;
+import dev.coffeezombie.wasp.util.GeneratorStringUtil;
 import dev.coffeezombie.wasp.util.model.GeneratorConfig;
 import dev.coffeezombie.wasp.util.model.GeneratorEntity;
 
 import java.util.ArrayList;
 import java.util.StringJoiner;
 
-import static dev.coffeezombie.wasp.util.StringUtil.getCamelCaseEntityName;
-import static dev.coffeezombie.wasp.util.StringUtil.getLowerCaseEntityName;
+import static dev.coffeezombie.wasp.util.GeneratorStringUtil.getCamelCaseEntityName;
+import static dev.coffeezombie.wasp.util.GeneratorStringUtil.getLowerCaseEntityName;
 
 public class ControllerGenerator {
 
@@ -32,7 +32,7 @@ public class ControllerGenerator {
         controllerBuilder.add("@RequestMapping(\"" + getLowerCaseEntityName(entity.getName()) + "\")");
 
         // Class
-        controllerBuilder.add("public class PersonController {");
+        controllerBuilder.add("public class " + entity.getName() + "Controller {");
 
         // Service Import
         controllerBuilder.add("");
@@ -74,7 +74,7 @@ public class ControllerGenerator {
 
         controllerBuilder.add("}");
 
-        return StringUtil.cleanOutput(controllerBuilder.toString());
+        return GeneratorStringUtil.cleanOutput(controllerBuilder.toString());
     }
 
     public static String generateAllImports(GeneratorConfig config, GeneratorEntity entity){
@@ -106,7 +106,7 @@ public class ControllerGenerator {
         packages.add("org.springframework.http.ResponseEntity");
         packages.add("org.springframework.web.bind.annotation.*");
 
-        return StringUtil.generateImports(packages);
+        return GeneratorStringUtil.generateImports(packages);
     }
 
 }
