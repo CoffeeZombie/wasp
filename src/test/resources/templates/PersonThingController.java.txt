@@ -1,7 +1,7 @@
-package dev.coffeezombie.wasp.controller;
+package dev.coffeezombie.wasp_test.controller;
 
-import dev.coffeezombie.wasp.dto.PersonThingDto;
-import dev.coffeezombie.wasp.service.PersonThingService;
+import dev.coffeezombie.wasp_test.dto.PersonThingDto;
+import dev.coffeezombie.wasp_test.service.PersonThingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

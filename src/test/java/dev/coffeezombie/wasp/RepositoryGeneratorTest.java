@@ -26,7 +26,7 @@ public class RepositoryGeneratorTest {
         var obj = new ObjectMapper();
         GeneratorConfig config = obj.readValue(json, GeneratorConfig.class);
 
-        String result = RepositoryGenerator.generateRepository("dev.coffeezombie.wasp", config.getEntities().get(0));
+        String result = RepositoryGenerator.generateRepository(config.getPackageName(), config.getEntities().get(0));
 
         assertEquals(expectedOutput, result);
     }
@@ -43,7 +43,7 @@ public class RepositoryGeneratorTest {
         var obj = new ObjectMapper();
         GeneratorConfig config = obj.readValue(json, GeneratorConfig.class);
 
-        String result = RepositoryGenerator.generateRepository("dev.coffeezombie.wasp", config.getEntities().get(1));
+        String result = RepositoryGenerator.generateRepository(config.getPackageName(), config.getEntities().get(1));
 
         assertEquals(expectedOutput, result);
     }

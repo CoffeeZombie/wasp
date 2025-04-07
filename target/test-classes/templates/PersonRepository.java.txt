@@ -1,6 +1,6 @@
-package dev.coffeezombie.wasp.repository;
+package dev.coffeezombie.wasp_test.repository;
 
-import dev.coffeezombie.wasp.entity.Person;
+import dev.coffeezombie.wasp_test.entity.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

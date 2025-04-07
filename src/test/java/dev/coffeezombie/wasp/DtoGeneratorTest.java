@@ -26,7 +26,7 @@ public class DtoGeneratorTest {
         var obj = new ObjectMapper();
         GeneratorConfig config = obj.readValue(json, GeneratorConfig.class);
 
-        String result = DtoGenerator.generateDto(config.getDefaultPreferences(), config.getEntities().get(0), "dev.coffeezombie.wasp");
+        String result = DtoGenerator.generateDto(config.getDefaultPreferences(), config.getEntities().get(0), config.getPackageName());
 
         assertEquals(expectedOutput, result);
     }
@@ -43,7 +43,7 @@ public class DtoGeneratorTest {
         var obj = new ObjectMapper();
         GeneratorConfig config = obj.readValue(json, GeneratorConfig.class);
 
-        String result = DtoGenerator.generateDto(config.getDefaultPreferences(), config.getEntities().get(1), "dev.coffeezombie.wasp");
+        String result = DtoGenerator.generateDto(config.getDefaultPreferences(), config.getEntities().get(1), config.getPackageName());
 
         assertEquals(expectedOutput, result);
     }

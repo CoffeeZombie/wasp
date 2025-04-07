@@ -1,6 +1,6 @@
 {
-  "projectLocation": "/home/bla/bla",
-  "packageName": "dev.coffeezombie.wasp",
+  "projectLocation": "~/dev/wasp-test",
+  "packageName": "dev.coffeezombie.wasp_test",
   "classes": {
     "entity": true,
     "dto": true,

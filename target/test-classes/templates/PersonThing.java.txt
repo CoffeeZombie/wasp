@@ -1,6 +1,6 @@
-package dev.coffeezombie.wasp.entity;
+package dev.coffeezombie.wasp_test.entity;
 
-import dev.coffeezombie.wasp.dto.PersonThingDto;
+import dev.coffeezombie.wasp_test.dto.PersonThingDto;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;

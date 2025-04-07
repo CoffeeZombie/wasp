@@ -1,8 +1,8 @@
-package dev.coffeezombie.wasp.service;
+package dev.coffeezombie.wasp_test.service;
 
-import dev.coffeezombie.wasp.dto.PersonThingDto;
-import dev.coffeezombie.wasp.entity.PersonThing;
-import dev.coffeezombie.wasp.repository.PersonThingRepository;
+import dev.coffeezombie.wasp_test.dto.PersonThingDto;
+import dev.coffeezombie.wasp_test.entity.PersonThing;
+import dev.coffeezombie.wasp_test.repository.PersonThingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
-package dev.coffeezombie.wasp.dto;
+package dev.coffeezombie.wasp_test.dto;
 
-import dev.coffeezombie.wasp.entity.PersonThing;
+import dev.coffeezombie.wasp_test.entity.PersonThing;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
