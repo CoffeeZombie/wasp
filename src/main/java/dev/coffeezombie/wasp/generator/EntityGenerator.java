@@ -58,7 +58,7 @@ public class EntityGenerator {
         joiner.add("\tpublic " + entity.getName() + "(" + entity.getName() + "Dto dto) {");
 
         joiner.add("\t\t" + "var mapper = new ModelMapper();");
-        joiner.add("\t\t" + "return mapper.map(entity, " + entity.getName() + ".class)");
+        joiner.add("\t\t" + "return mapper.map(dto, " + entity.getName() + ".class);");
 
         joiner.add("\t}");
         return joiner.toString();
@@ -84,6 +84,7 @@ public class EntityGenerator {
         var packages = new ArrayList<String>();
 
         // Default
+        packages.add("jakarta.persistence.Entity");
         packages.add("jakarta.persistence.GeneratedValue");
         packages.add("jakarta.persistence.GenerationType");
         packages.add("jakarta.persistence.Id");
@@ -118,10 +119,10 @@ public class EntityGenerator {
 
         var languageImports = new ArrayList<String>();
         if(types.contains("BigDecimal"))
-            languageImports.add("java.Math.BigDecimal");
+            languageImports.add("java.math.BigDecimal");
 
         if(types.contains("BigInteger"))
-            languageImports.add("java.Math.BigInteger");
+            languageImports.add("java.math.BigInteger");
 
         if(types.contains("Date"))
             languageImports.add("java.util.Date");

@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.modelmapper.ModelMapper;
 
-import java.Math.BigDecimal;
-import java.Math.BigInteger;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 
 @Data
@@ -33,7 +33,7 @@ public class PersonDto {
 
     public PersonDto(Person entity) {
         var mapper = new ModelMapper();
-        return mapper.map(entity, PersonDto.class)
+        return mapper.map(entity, PersonDto.class);
     }
 
 }

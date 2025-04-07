@@ -56,7 +56,7 @@ public class DtoGenerator {
         joiner.add("\tpublic " + dtoName + "(" + entity.getName() + " entity) {");
 
         joiner.add("\t\t" + "var mapper = new ModelMapper();");
-        joiner.add("\t\t" + "return mapper.map(entity, " + dtoName + ".class)");
+        joiner.add("\t\t" + "return mapper.map(entity, " + dtoName + ".class);");
 
         joiner.add("\t}");
         joiner.add("");
@@ -90,10 +90,10 @@ public class DtoGenerator {
 
         var languageImports = new ArrayList<String>();
         if(types.contains("BigDecimal"))
-            languageImports.add("java.Math.BigDecimal");
+            languageImports.add("java.math.BigDecimal");
 
         if(types.contains("BigInteger"))
-            languageImports.add("java.Math.BigInteger");
+            languageImports.add("java.math.BigInteger");
 
         if(types.contains("Date"))
             languageImports.add("java.util.Date");

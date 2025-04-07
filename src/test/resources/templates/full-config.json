@@ -1,6 +1,7 @@
 {
-  "projectLocation": "~/dev/wasp-test",
+  "projectLocation": "~/Dev/wasp-test",
   "packageName": "dev.coffeezombie.wasp_test",
+  "overwriteFiles": true,
   "classes": {
     "entity": true,
     "dto": true,

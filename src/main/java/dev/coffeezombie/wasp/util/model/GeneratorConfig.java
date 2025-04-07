@@ -13,8 +13,8 @@ public class GeneratorConfig {
 
     String projectLocation;
     String packageName;
+    Boolean overwriteFiles = false;
     GeneratorClass classes;
     GeneratorDefaultPreference defaultPreferences;
     List<GeneratorEntity> entities;
-
 }
