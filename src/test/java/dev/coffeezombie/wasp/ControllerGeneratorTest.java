@@ -1,7 +1,7 @@
 package dev.coffeezombie.wasp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.coffeezombie.wasp.generator.ServiceGenerator;
+import dev.coffeezombie.wasp.generator.ControllerGenerator;
 import dev.coffeezombie.wasp.util.model.GeneratorConfig;
 import org.junit.jupiter.api.Test;
 
@@ -12,12 +12,12 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ServiceGeneratorTest {
+public class ControllerGeneratorTest {
 
     @Test
     public void test_generateDto() throws IOException {
 
-        Path resourcePath = Paths.get("src", "test", "resources", "templates", "PersonService.java.txt");
+        Path resourcePath = Paths.get("src", "test", "resources", "templates", "PersonController.java.txt");
         String expectedOutput = Files.readString(resourcePath);
 
         Path jsonPath = Paths.get("src", "test", "resources", "templates", "full-config.json");
@@ -26,7 +26,7 @@ public class ServiceGeneratorTest {
         var obj = new ObjectMapper();
         GeneratorConfig config = obj.readValue(json, GeneratorConfig.class);
 
-        String result = ServiceGenerator.generateService(config, config.getEntities().get(0));
+        String result = ControllerGenerator.generateController(config, config.getEntities().get(0));
 
         assertEquals(expectedOutput, result);
     }

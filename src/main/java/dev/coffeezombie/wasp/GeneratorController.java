@@ -1,7 +1,6 @@
 package dev.coffeezombie.wasp;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import dev.coffeezombie.wasp.util.GeneratorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

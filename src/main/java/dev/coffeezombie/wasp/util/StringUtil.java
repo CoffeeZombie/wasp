@@ -5,6 +5,16 @@ import java.util.StringJoiner;
 
 public class StringUtil {
 
+    public static String getLowerCaseEntityName(String name){
+        // TODO: handle multiple words e.g. UserPreference to user-preference
+        return name.toLowerCase();
+    }
+
+    public static String getCamelCaseEntityName(String name){
+        // TODO: handle multiple words e.g. UserPreference to userPreference
+        return name.toLowerCase();
+    }
+
     public static String cleanOutput(String input){
         // Remove empty tabbed lines
         input = input.replace("\n\t\n", "\n\n");

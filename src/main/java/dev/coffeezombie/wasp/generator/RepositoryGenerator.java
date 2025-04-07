@@ -1,5 +1,6 @@
-package dev.coffeezombie.wasp.util;
+package dev.coffeezombie.wasp.generator;
 
+import dev.coffeezombie.wasp.util.StringUtil;
 import dev.coffeezombie.wasp.util.model.GeneratorEntity;
 
 import java.util.ArrayList;

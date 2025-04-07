@@ -1,7 +1,11 @@
-package dev.coffeezombie.wasp.util;
+package dev.coffeezombie.wasp;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.coffeezombie.wasp.generator.DtoGenerator;
+import dev.coffeezombie.wasp.generator.EntityGenerator;
+import dev.coffeezombie.wasp.generator.RepositoryGenerator;
+import dev.coffeezombie.wasp.generator.ServiceGenerator;
 import dev.coffeezombie.wasp.util.model.GeneratorConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

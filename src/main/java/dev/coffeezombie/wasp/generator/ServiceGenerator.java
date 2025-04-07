@@ -1,5 +1,6 @@
-package dev.coffeezombie.wasp.util;
+package dev.coffeezombie.wasp.generator;
 
+import dev.coffeezombie.wasp.util.StringUtil;
 import dev.coffeezombie.wasp.util.model.GeneratorConfig;
 import dev.coffeezombie.wasp.util.model.GeneratorEntity;
 
@@ -48,23 +49,23 @@ public class ServiceGenerator {
         methods.add(INDENT_ONE + "var person = personRepository.findById(id)");
         methods.add(INDENT_THREE + ".orElseThrow(() -> new RuntimeException(\"Unable to find person by id \" + id));");
         methods.add("");
-        methods.add("            return new PersonDto(person);");
-        methods.add("        }");
+        methods.add(INDENT_ONE + "return new PersonDto(person);");
+        methods.add("}");
         methods.add("");
-        methods.add("        public void deleteById(Long id) {");
-        methods.add("            personRepository.deleteById(id);");
-        methods.add("        }");
+        methods.add("public void deleteById(Long id) {");
+        methods.add(INDENT_ONE + "personRepository.deleteById(id);");
+        methods.add("}");
         methods.add("");
-        methods.add("        public PersonDto createOrUpdate(PersonDto dto) {");
-        methods.add("            var entity = personRepository.save(new Person(dto));");
-        methods.add("            return new PersonDto(entity);");
-        methods.add("        }");
+        methods.add("public PersonDto createOrUpdate(PersonDto dto) {");
+        methods.add(INDENT_ONE + "var entity = personRepository.save(new Person(dto));");
+        methods.add(INDENT_ONE + "return new PersonDto(entity);");
+        methods.add("}");
         methods.add("");
-        methods.add("        public PersonDto update(PersonDto dto) {");
-        methods.add("            var entity = findById(dto.getId()); // Throws exception if not found - this is used as a check only");
-        methods.add("            var updated = personRepository.save(new Person(dto));");
-        methods.add("            return new PersonDto(updated);");
-        methods.add("        }");
+        methods.add("public PersonDto update(PersonDto dto) {");
+        methods.add(INDENT_ONE + "var entity = findById(dto.getId()); // Throws exception if not found - this is used as a check only");
+        methods.add(INDENT_ONE + "var updated = personRepository.save(new Person(dto));");
+        methods.add(INDENT_ONE + "return new PersonDto(updated);");
+        methods.add("}");
 
         serviceBuilder.add(methods.toString());
 

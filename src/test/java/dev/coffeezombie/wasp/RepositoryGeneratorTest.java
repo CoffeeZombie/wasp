@@ -1,8 +1,7 @@
 package dev.coffeezombie.wasp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.coffeezombie.wasp.util.DtoGenerator;
-import dev.coffeezombie.wasp.util.RepositoryGenerator;
+import dev.coffeezombie.wasp.generator.RepositoryGenerator;
 import dev.coffeezombie.wasp.util.model.GeneratorConfig;
 import org.junit.jupiter.api.Test;
 
