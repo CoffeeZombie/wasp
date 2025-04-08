@@ -12,7 +12,7 @@ import java.util.Date;
 
 @Data
 @NoArgsConstructor
-@JsonIgnoreProperties(unknownProperties = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PersonDto {
 
     private Long id;
@@ -31,9 +31,9 @@ public class PersonDto {
     private Date myDate;
     private JsonBinaryType myJson;
 
-    public PersonDto(Person entity) {
+    public Person toEntity() {
         var mapper = new ModelMapper();
-        return mapper.map(entity, PersonDto.class);
+        return mapper.map(this, Person.class);
     }
 
 }

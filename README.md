@@ -1,8 +1,9 @@
 # TODO
 
-- Fix ModelMapper
-- JSON Binary Type
-- Relationship Mapping
+- [x] Fix ModelMapper
+- [ ] Switch to class templates
+- [ ] JSON Binary Type
+- [ ] Relationship Mapping
 
 # How to use
 

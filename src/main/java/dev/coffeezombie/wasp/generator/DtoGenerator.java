@@ -31,7 +31,7 @@ public class DtoGenerator {
         dtoBuilder.add("@Data");
         dtoBuilder.add("@NoArgsConstructor");
         if(defaultPreferences.getJsonIgnoreUnknown())
-            dtoBuilder.add("@JsonIgnoreProperties(unknownProperties = true)");
+            dtoBuilder.add("@JsonIgnoreProperties(ignoreUnknown = true)");
 
         // Class
         dtoBuilder.add("public class " + dtoName + " {");
@@ -53,10 +53,10 @@ public class DtoGenerator {
         var joiner = new StringJoiner("\n");
 
         joiner.add("");
-        joiner.add("\tpublic " + dtoName + "(" + entity.getName() + " entity) {");
+        joiner.add("\tpublic " + entity.getName() + " toEntity() {");
 
         joiner.add("\t\t" + "var mapper = new ModelMapper();");
-        joiner.add("\t\t" + "return mapper.map(entity, " + dtoName + ".class);");
+        joiner.add("\t\t" + "return mapper.map(this, " + entity.getName() + ".class);");
 
         joiner.add("\t}");
         joiner.add("");

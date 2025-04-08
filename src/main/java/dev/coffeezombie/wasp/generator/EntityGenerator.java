@@ -55,10 +55,10 @@ public class EntityGenerator {
     private static String getDtoConversion(GeneratorEntity entity){
         var joiner = new StringJoiner("\n");
         joiner.add("");
-        joiner.add("\tpublic " + entity.getName() + "(" + entity.getName() + "Dto dto) {");
+        joiner.add("\tpublic " + entity.getName() + "Dto toDto() {");
 
         joiner.add("\t\t" + "var mapper = new ModelMapper();");
-        joiner.add("\t\t" + "return mapper.map(dto, " + entity.getName() + ".class);");
+        joiner.add("\t\t" + "return mapper.map(this, " + entity.getName() + "Dto.class);");
 
         joiner.add("\t}");
         return joiner.toString();

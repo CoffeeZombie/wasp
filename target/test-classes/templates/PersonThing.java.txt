@@ -23,9 +23,9 @@ public class PersonThing {
     private Long myLong;
     private BigDecimal myBd;
 
-    public PersonThing(PersonThingDto dto) {
+    public PersonThingDto toDto() {
         var mapper = new ModelMapper();
-        return mapper.map(dto, PersonThing.class);
+        return mapper.map(this, PersonThingDto.class);
     }
 
 }

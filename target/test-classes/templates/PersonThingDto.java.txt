@@ -10,16 +10,16 @@ import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
-@JsonIgnoreProperties(unknownProperties = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PersonThingDto {
 
     private Long id;
     private Long myLong;
     private BigDecimal myBd;
 
-    public PersonThingDto(PersonThing entity) {
+    public PersonThing toEntity() {
         var mapper = new ModelMapper();
-        return mapper.map(entity, PersonThingDto.class);
+        return mapper.map(this, PersonThing.class);
     }
 
 }

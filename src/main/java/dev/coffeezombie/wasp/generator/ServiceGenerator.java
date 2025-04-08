@@ -15,6 +15,8 @@ public class ServiceGenerator {
     public final static String INDENT_TWO = "\t\t";
     public final static String INDENT_THREE = "\t\t\t";
 
+
+
     public static String generateService(GeneratorConfig config, GeneratorEntity entity){
         var serviceBuilder = new StringJoiner("\n");
 
