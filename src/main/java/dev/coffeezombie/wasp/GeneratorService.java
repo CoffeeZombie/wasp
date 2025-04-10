@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.StringJoiner;
 
 import static dev.coffeezombie.wasp.util.FileReadWriteUtil.writeClassFile;
@@ -17,17 +18,15 @@ import static dev.coffeezombie.wasp.util.FileReadWriteUtil.writeClassFile;
 @RequiredArgsConstructor
 public class GeneratorService {
 
-    public String generate(String json) throws JsonProcessingException {
+    public String generate(String json) throws IOException {
         var obj = new ObjectMapper();
         GeneratorConfig config = obj.readValue(json, GeneratorConfig.class);
         return generate(config);
     }
 
-    public String generate(GeneratorConfig config) {
+    public String generate(GeneratorConfig config) throws IOException {
 
         var joiner = new StringJoiner("\n");
-
-        String basePackageName = config.getPackageName();
 
         for(var entity : config.getEntities()){
             String entityString = EntityGenerator.generateEntity(config, entity);
@@ -35,13 +34,13 @@ public class GeneratorService {
             joiner.add(entityFile);
 
             if(config.getClasses().getDto()){
-                String dto = DtoGenerator.generateDto(config.getDefaultPreferences(), entity, basePackageName);
+                String dto = DtoGenerator.generateDto(config, entity);
                 String dtoFile = writeClassFile(dto, config, entity.getName(), "dto");
                 joiner.add(dtoFile);
             }
 
             if(config.getClasses().getRepository()){
-                String repo = RepositoryGenerator.generateRepository(basePackageName, entity);
+                String repo = RepositoryGenerator.generateRepository(config, entity);
                 String repoFile = writeClassFile(repo, config, entity.getName(), "repository");
                 joiner.add(repoFile);
             }

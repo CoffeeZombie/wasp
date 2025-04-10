@@ -1,0 +1,9 @@
+package {PACKAGE_NAME}.repository;
+
+import {PACKAGE_NAME}.entity.{PC_ENTITY_NAME};
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface {PC_REPOSITORY_NAME} extends JpaRepository<{PC_ENTITY_NAME}, Long> {
+}

@@ -1,0 +1,17 @@
+package {PACKAGE_NAME}.dto;
+
+import {PACKAGE_NAME}.entity.{PC_ENTITY_NAME};
+import lombok.Data;
+import lombok.NoArgsConstructor;
+{IMPORTS}
+
+@Data
+@NoArgsConstructor
+{ANNOTATIONS}
+public class {PC_DTO_NAME} {
+
+    {DTO_PROPERTIES}
+
+    {ENTITY_CONVERSION}
+
+}

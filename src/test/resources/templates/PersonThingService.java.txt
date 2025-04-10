@@ -20,15 +20,15 @@ public class PersonThingService {
     public List<PersonThingDto> findAll() {
         return personThingRepository.findAll()
                 .stream()
-                .map(PersonThingDto::new)
+                .map(PersonThing::toDto)
                 .collect(Collectors.toList());
     }
 
     public PersonThingDto findById(Long id) {
-        var personThing = personThingRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Unable to find personThing by id " + id));
+        var entity = personThingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Unable to find person-thing by id " + id));
 
-        return new PersonThingDto(personThing);
+        return entity.toDto();
     }
 
     public void deleteById(Long id) {
@@ -36,13 +36,13 @@ public class PersonThingService {
     }
 
     public PersonThingDto createOrUpdate(PersonThingDto dto) {
-        var entity = personThingRepository.save(new PersonThing(dto));
-        return new PersonThingDto(entity);
+        var entity = personThingRepository.save(dto.toEntity());
+        return entity.toDto();
     }
 
     public PersonThingDto update(PersonThingDto dto) {
         var entity = findById(dto.getId()); // Throws exception if not found - this is used as a check only
-        var updated = personThingRepository.save(new PersonThing(dto));
-        return new PersonThingDto(updated);
+        var updated = personThingRepository.save(dto.toEntity());
+        return updated.toDto();
     }
 }

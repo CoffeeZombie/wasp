@@ -1,8 +1,8 @@
 package {PACKAGE_NAME}.service;
 
-import dev.coffeezombie.wasp_test.dto.{PC_DTO_NAME};
-import dev.coffeezombie.wasp_test.entity.{PC_ENTITY_NAME};
-import dev.coffeezombie.wasp_test.repository.{PC_REPOSITORY_NAME};
+import {PACKAGE_NAME}.dto.{PC_DTO_NAME};
+import {PACKAGE_NAME}.entity.{PC_ENTITY_NAME};
+import {PACKAGE_NAME}.repository.{PC_REPOSITORY_NAME};
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class {PC_SERVICE_NAME} {
     private final {PC_REPOSITORY_NAME} {CC_REPOSITORY_NAME};
 
     public List<{PC_DTO_NAME}> findAll() {
-        return {PC_REPOSITORY_NAME}.findAll()
+        return {CC_REPOSITORY_NAME}.findAll()
                 .stream()
                 .map({PC_ENTITY_NAME}::toDto)
                 .collect(Collectors.toList());
@@ -26,7 +26,7 @@ public class {PC_SERVICE_NAME} {
 
     public {PC_DTO_NAME} findById(Long id) {
         var entity = {CC_REPOSITORY_NAME}.findById(id)
-                .orElseThrow(() -> new RuntimeException("Unable to find {FRIENDLY_ENTITY_NAME} by id " + id));
+                .orElseThrow(() -> new RuntimeException("Unable to find {KC_ENTITY_NAME} by id " + id));
 
         return entity.toDto();
     }

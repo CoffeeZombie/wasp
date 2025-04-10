@@ -7,8 +7,8 @@ import dev.coffeezombie.wasp.util.model.GeneratorEntity;
 import java.util.ArrayList;
 import java.util.StringJoiner;
 
-import static dev.coffeezombie.wasp.util.GeneratorStringUtil.getCamelCaseEntityName;
-import static dev.coffeezombie.wasp.util.GeneratorStringUtil.getLowerCaseEntityName;
+import static dev.coffeezombie.wasp.util.GeneratorStringUtil.getCamelCaseName;
+import static dev.coffeezombie.wasp.util.GeneratorStringUtil.getLowerCaseName;
 
 public class ControllerGenerator {
 
@@ -17,7 +17,7 @@ public class ControllerGenerator {
     public static String generateController(GeneratorConfig config, GeneratorEntity entity){
         var controllerBuilder = new StringJoiner("\n");
 
-        String serviceName = getCamelCaseEntityName(entity.getName()) + "Service";
+        String serviceName = getCamelCaseName(entity.getName()) + "Service";
         String dtoName = entity.getName() + "Dto";
 
         // Package Name
@@ -29,7 +29,7 @@ public class ControllerGenerator {
         // Annotations
         controllerBuilder.add("@RestController");
         controllerBuilder.add("@RequiredArgsConstructor");
-        controllerBuilder.add("@RequestMapping(\"" + getLowerCaseEntityName(entity.getName()) + "\")");
+        controllerBuilder.add("@RequestMapping(\"" + getLowerCaseName(entity.getName()) + "\")");
 
         // Class
         controllerBuilder.add("public class " + entity.getName() + "Controller {");

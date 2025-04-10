@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
@@ -18,7 +20,7 @@ public class GeneratorController {
     private final GeneratorService generatorService;
 
     @PostMapping()
-    public ResponseEntity<String> generate(@RequestBody GeneratorConfig config){
+    public ResponseEntity<String> generate(@RequestBody GeneratorConfig config) throws IOException {
         return ok(generatorService.generate(config));
     }
 

@@ -2,136 +2,54 @@ package dev.coffeezombie.wasp.generator;
 
 import dev.coffeezombie.wasp.util.GeneratorStringUtil;
 import dev.coffeezombie.wasp.util.model.GeneratorConfig;
-import dev.coffeezombie.wasp.util.model.GeneratorDefaultPreference;
 import dev.coffeezombie.wasp.util.model.GeneratorEntity;
-import dev.coffeezombie.wasp.util.model.GeneratorEntityField;
 
-import java.util.ArrayList;
-import java.util.Set;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.StringJoiner;
-import java.util.stream.Collectors;
+
+import static dev.coffeezombie.wasp.generator.ClassPropertyGenerator.generateEntityProperties;
+import static dev.coffeezombie.wasp.generator.ClassPropertyGenerator.generateTypeImports;
 
 public class EntityGenerator {
 
-    public static String generateEntity(GeneratorConfig config, GeneratorEntity entity){
-        boolean generateDto = config.getClasses().getDto();
+    public static String generateEntity(GeneratorConfig config, GeneratorEntity entity) throws IOException {
+        Path resourcePath = Paths.get("src", "main", "resources", "class-templates", "Entity.java.txt");
+        String baseTemplate = Files.readString(resourcePath);
 
-        var entityBuilder = new StringJoiner("\n");
+        // Package name and imports
+        baseTemplate = baseTemplate.replace("{PACKAGE_NAME}", config.getPackageName());
+        baseTemplate = baseTemplate.replace("{IMPORTS}", generateTypeImports(entity, config.getDefaultPreferences(), true));
 
-        var types = entity.getProperties().stream()
-                .map(GeneratorEntityField::getType)
-                .collect(Collectors.toSet());
+        // Entity and ID Names
+        baseTemplate = baseTemplate.replace("{PC_ENTITY_NAME}", entity.getName());
+        baseTemplate = baseTemplate.replace("{CC_ENTITY_ID_NAME}", entity.getIdName());
 
-        // Package Name
-        entityBuilder.add("package " + config.getPackageName() + ".entity;\n");
+        // Properties and type imports
+        baseTemplate = baseTemplate.replace("{ENTITY_PROPERTIES}", generateEntityProperties(entity));
 
-        // Import DTO
-        if(generateDto)
-            entityBuilder.add("import " + config.getPackageName() + ".dto." + entity.getName() + "Dto;");
+        // DTO Conversion
+        if(config.getClasses().getDto()){
+            baseTemplate = baseTemplate.replace("{PC_DTO_NAME}", entity.getName() + "Dto");
 
-        entityBuilder.add(generateAllImports(types, config.getDefaultPreferences()));
+            if(config.getDefaultPreferences().getModelMapper()){
+                baseTemplate = baseTemplate.replace("{DTO_CONVERSION}", getDtoConversion(entity));
+            }
+        }
 
-        // Annotations
-        entityBuilder.add("@Entity");
-        entityBuilder.add("@Data");
-        entityBuilder.add("@NoArgsConstructor");
-
-        // Class
-        entityBuilder.add("public class " + entity.getName() + " {");
-
-        // Properties
-        var properties = getProperties(entity);
-        entityBuilder.add(properties);
-
-        // Convert from Dto
-        if(generateDto)
-            entityBuilder.add(getDtoConversion(entity));
-
-        entityBuilder.add("\n}");
-
-        return GeneratorStringUtil.cleanOutput(entityBuilder.toString());
+        return GeneratorStringUtil.cleanOutput(baseTemplate);
     }
 
     private static String getDtoConversion(GeneratorEntity entity){
         var joiner = new StringJoiner("\n");
-        joiner.add("");
-        joiner.add("\tpublic " + entity.getName() + "Dto toDto() {");
+        joiner.add("public " + entity.getName() + "Dto toDto() {");
 
         joiner.add("\t\t" + "var mapper = new ModelMapper();");
         joiner.add("\t\t" + "return mapper.map(this, " + entity.getName() + "Dto.class);");
 
         joiner.add("\t}");
-        return joiner.toString();
-    }
-
-    private static String getProperties(GeneratorEntity entity) {
-        var properties = new StringJoiner("\n\t");
-        properties.add("");
-
-        properties.add("@Id");
-        properties.add("@GeneratedValue(strategy = GenerationType.IDENTITY)");
-        properties.add("private Long " + entity.getIdName() + ";");
-        properties.add("");
-
-        for(var property : entity.getProperties()){
-            if(property.getName().equals(entity.getIdName())) continue;
-            properties.add("private " + property.getType() + " " + property.getName() + ";");
-        }
-        return properties.toString();
-    }
-
-    public static String generateUniversalImports(GeneratorDefaultPreference preferences){
-        var packages = new ArrayList<String>();
-
-        // Default
-        packages.add("jakarta.persistence.Entity");
-        packages.add("jakarta.persistence.GeneratedValue");
-        packages.add("jakarta.persistence.GenerationType");
-        packages.add("jakarta.persistence.Id");
-        packages.add("lombok.Data");
-        packages.add("lombok.NoArgsConstructor");
-
-        if(preferences.getModelMapper())
-            packages.add("org.modelmapper.ModelMapper");
-
-        return GeneratorStringUtil.generateImports(packages);
-    }
-
-    public static String generatePostgresImports(){
-        var packages = new ArrayList<String>();
-        packages.add("org.hibernate.annotations.JdbcTypeCode");
-        packages.add("org.hibernate.annotations.Type");
-        packages.add("org.hibernate.type.SqlTypes");
-        return GeneratorStringUtil.generateImports(packages);
-    }
-
-    public static String generateAllImports(Set<String> types, GeneratorDefaultPreference preference){
-        var joiner = new StringJoiner("\n");
-
-        // Base package imports
-        joiner.add(generateUniversalImports(preference));
-
-        // Postgres Imports
-        if(types.contains("JsonBinaryType"))
-            joiner.add(generatePostgresImports());
-
-        joiner.add(""); // Space between package and language imports
-
-        var languageImports = new ArrayList<String>();
-        if(types.contains("BigDecimal"))
-            languageImports.add("java.math.BigDecimal");
-
-        if(types.contains("BigInteger"))
-            languageImports.add("java.math.BigInteger");
-
-        if(types.contains("Date"))
-            languageImports.add("java.util.Date");
-
-        joiner.add(GeneratorStringUtil.generateImports(languageImports));
-
-        if(!languageImports.isEmpty())
-            joiner.add("");
-
         return joiner.toString();
     }
 

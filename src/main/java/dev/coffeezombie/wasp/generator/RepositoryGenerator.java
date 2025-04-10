@@ -1,33 +1,25 @@
 package dev.coffeezombie.wasp.generator;
 
 import dev.coffeezombie.wasp.util.GeneratorStringUtil;
+import dev.coffeezombie.wasp.util.model.GeneratorConfig;
 import dev.coffeezombie.wasp.util.model.GeneratorEntity;
 
-import java.util.ArrayList;
-import java.util.StringJoiner;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class RepositoryGenerator {
 
-    public static String generateRepository(String basePackage, GeneratorEntity entity){
+    public static String generateRepository(GeneratorConfig config, GeneratorEntity entity) throws IOException {
+        Path resourcePath = Paths.get("src", "main", "resources", "class-templates", "Repository.java.txt");
+        String baseTemplate = Files.readString(resourcePath);
 
-        var repoBuilder = new StringJoiner("\n");
+        baseTemplate = baseTemplate.replace("{PACKAGE_NAME}", config.getPackageName());
+        baseTemplate = baseTemplate.replace("{PC_REPOSITORY_NAME}", entity.getName() + "Repository");
+        baseTemplate = baseTemplate.replace("{PC_ENTITY_NAME}", entity.getName());
 
-        repoBuilder.add("package " + basePackage + ".repository;");
-        repoBuilder.add("");
-
-        var imports = new ArrayList<String>();
-        imports.add(basePackage + ".entity." + entity.getName());
-        imports.add("org.springframework.data.jpa.repository.JpaRepository");
-        imports.add("org.springframework.stereotype.Repository");
-
-        repoBuilder.add(GeneratorStringUtil.generateImports(imports));
-        repoBuilder.add("");
-
-        repoBuilder.add("@Repository");
-        repoBuilder.add("public interface " + entity.getName() + "Repository extends JpaRepository<" + entity.getName() + ", Long> {");
-        repoBuilder.add("}");
-
-        return repoBuilder.toString();
+        return GeneratorStringUtil.cleanOutput(baseTemplate);
     }
 
 }
