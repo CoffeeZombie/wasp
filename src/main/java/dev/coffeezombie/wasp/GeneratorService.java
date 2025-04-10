@@ -1,6 +1,5 @@
 package dev.coffeezombie.wasp;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.coffeezombie.wasp.generator.*;
 import dev.coffeezombie.wasp.util.model.GeneratorConfig;
