@@ -4,109 +4,28 @@ import dev.coffeezombie.wasp.util.GeneratorStringUtil;
 import dev.coffeezombie.wasp.util.model.GeneratorConfig;
 import dev.coffeezombie.wasp.util.model.GeneratorEntity;
 
-import java.util.ArrayList;
-import java.util.StringJoiner;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static dev.coffeezombie.wasp.util.GeneratorStringUtil.getCamelCaseName;
 import static dev.coffeezombie.wasp.util.GeneratorStringUtil.getLowerCaseName;
 
 public class ControllerGenerator {
 
-    public final static String INDENT_ONE = "\t";
+    public static String generateController(GeneratorConfig config, GeneratorEntity entity) throws IOException {
+        Path resourcePath = Paths.get("src", "main", "resources", "class-templates", "Controller.java.txt");
+        String baseTemplate = Files.readString(resourcePath);
 
-    public static String generateController(GeneratorConfig config, GeneratorEntity entity){
-        var controllerBuilder = new StringJoiner("\n");
+        baseTemplate = baseTemplate.replace("{PACKAGE_NAME}", config.getPackageName());
+        baseTemplate = baseTemplate.replace("{PC_CONTROLLER_NAME}", entity.getName() + "Controller");
+        baseTemplate = baseTemplate.replace("{KC_ENTITY_NAME}", getLowerCaseName(entity.getName()));
+        baseTemplate = baseTemplate.replace("{PC_SERVICE_NAME}", entity.getName() + "Service");
+        baseTemplate = baseTemplate.replace("{CC_SERVICE_NAME}", getCamelCaseName(entity.getName()) + "Service");
+        baseTemplate = baseTemplate.replace("{PC_DTO_NAME}", entity.getName() + "Dto");
 
-        String serviceName = getCamelCaseName(entity.getName()) + "Service";
-        String dtoName = entity.getName() + "Dto";
-
-        // Package Name
-        controllerBuilder.add("package " + config.getPackageName() + ".controller;\n");
-
-        // Imports
-        controllerBuilder.add(generateAllImports(config, entity));
-
-        // Annotations
-        controllerBuilder.add("@RestController");
-        controllerBuilder.add("@RequiredArgsConstructor");
-        controllerBuilder.add("@RequestMapping(\"" + getLowerCaseName(entity.getName()) + "\")");
-
-        // Class
-        controllerBuilder.add("public class " + entity.getName() + "Controller {");
-
-        // Service Import
-        controllerBuilder.add("");
-        controllerBuilder.add("\tprivate final " + entity.getName() + "Service " + serviceName + ";");
-
-        // Methods
-        var methods = new StringJoiner("\n\t");
-        methods.add("");
-
-        methods.add("@GetMapping(\"\")");
-        methods.add("public ResponseEntity<List<" + dtoName + ">> findAll(){");
-        methods.add(INDENT_ONE + "return ok(" + serviceName + ".findAll());");
-        methods.add("}");
-        methods.add("");
-
-        methods.add("@PostMapping(\"\")");
-        methods.add("public ResponseEntity<" + dtoName + "> createOrUpdate(@RequestBody " + dtoName + " dto){");
-        methods.add(INDENT_ONE + "return ok(" + serviceName + ".createOrUpdate(dto));");
-        methods.add("}");
-        methods.add("");
-        methods.add("@PutMapping(\"\")");
-        methods.add("public ResponseEntity<" + dtoName + "> update(@RequestBody " + dtoName + " dto){");
-        methods.add(INDENT_ONE + "return ok(" + serviceName + ".update(dto));");
-        methods.add("}");
-        methods.add("");
-        methods.add("@GetMapping(\"{id}\")");
-        methods.add("public ResponseEntity<" + dtoName + "> findById(@PathVariable Long id){");
-        methods.add(INDENT_ONE + "return ok(" + serviceName + ".findById(id));");
-        methods.add("}");
-        methods.add("");
-        methods.add("@DeleteMapping(\"{id}\")");
-        methods.add("public ResponseEntity<String> deleteById(@PathVariable Long id){");
-        methods.add(INDENT_ONE + serviceName + ".deleteById(id);");
-        methods.add(INDENT_ONE + "return ok(\"Deleted.\");");
-        methods.add("}");
-        methods.add("");
-
-        controllerBuilder.add(methods.toString());
-
-        controllerBuilder.add("}");
-
-        return GeneratorStringUtil.cleanOutput(controllerBuilder.toString());
-    }
-
-    public static String generateAllImports(GeneratorConfig config, GeneratorEntity entity){
-        String packageImports = generatePackageImports(config, entity);
-
-        // Language Imports
-        var joiner = new StringJoiner("\n");
-        joiner.add(packageImports);
-        joiner.add("");
-        joiner.add("import java.util.List;");
-        joiner.add("");
-        joiner.add("import static org.springframework.http.ResponseEntity.ok;");
-        joiner.add("");
-
-        return joiner.toString();
-    }
-
-    public static String generatePackageImports(GeneratorConfig config, GeneratorEntity entity){
-        var packages = new ArrayList<String>();
-
-        String basePackage = config.getPackageName();
-
-        if(config.getClasses().getDto())
-            packages.add(basePackage + ".dto." + entity.getName() + "Dto");
-
-        packages.add(basePackage + ".service." + entity.getName() + "Service");
-
-        packages.add("lombok.RequiredArgsConstructor");
-        packages.add("org.springframework.http.ResponseEntity");
-        packages.add("org.springframework.web.bind.annotation.*");
-
-        return GeneratorStringUtil.generateImports(packages);
+        return GeneratorStringUtil.cleanOutput(baseTemplate);
     }
 
 }

@@ -1,0 +1,46 @@
+package {PACKAGE_NAME}.controller;
+
+import {PACKAGE_NAME}.dto.{PC_DTO_NAME};
+import {PACKAGE_NAME}.service.{PC_SERVICE_NAME};
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+import static org.springframework.http.ResponseEntity.ok;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("{KC_ENTITY_NAME}")
+public class {PC_CONTROLLER_NAME} {
+
+    private final {PC_SERVICE_NAME} {CC_SERVICE_NAME};
+
+    @GetMapping("")
+    public ResponseEntity<List<{PC_DTO_NAME}>> findAll(){
+        return ok({CC_SERVICE_NAME}.findAll());
+    }
+
+    @PostMapping("")
+    public ResponseEntity<{PC_DTO_NAME}> createOrUpdate(@RequestBody {PC_DTO_NAME} dto){
+        return ok({CC_SERVICE_NAME}.createOrUpdate(dto));
+    }
+
+    @PutMapping("")
+    public ResponseEntity<{PC_DTO_NAME}> update(@RequestBody {PC_DTO_NAME} dto){
+        return ok({CC_SERVICE_NAME}.update(dto));
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<{PC_DTO_NAME}> findById(@PathVariable Long id){
+        return ok({CC_SERVICE_NAME}.findById(id));
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteById(@PathVariable Long id){
+        {CC_SERVICE_NAME}.deleteById(id);
+        return ok("Deleted.");
+    }
+
+}
